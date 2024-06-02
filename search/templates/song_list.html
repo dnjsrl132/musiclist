@@ -1,0 +1,94 @@
+<!-- song_list.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Song List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        th {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Song List</h1>
+        <table class="table" id="song-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Song</th>
+                    <th onclick="sortTable(1)">Artist</th>
+                    <th onclick="sortTable(2)">Speechiness</th>
+                    <th onclick="sortTable(3)">Liveness</th>
+                    <th onclick="sortTable(4)">Acousticness</th>
+                    <th onclick="sortTable(5)">Energy</th>
+                    <th onclick="sortTable(6)">Valence</th>
+                    <th onclick="sortTable(7)">Danceability</th>
+                    <th onclick="sortTable(8)">Mode</th>
+                    <th onclick="sortTable(9)">Key</th>
+                    <th onclick="sortTable(10)">BPM</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for song_data in song_list %}
+                    <tr>
+                        <td>{{ song_data.song.name }}</td>
+                        <td>{{ song_data.artist.name }}</td>
+                        <td>{{ song_data.feature.speechiness }}</td>
+                        <td>{{ song_data.feature.liveness }}</td>
+                        <td>{{ song_data.feature.acousticness }}</td>
+                        <td>{{ song_data.feature.energy }}</td>
+                        <td>{{ song_data.feature.valence }}</td>
+                        <td>{{ song_data.feature.danceability }}</td>
+                        <td>{{ song_data.feature.mode }}</td>
+                        <td>{{ song_data.feature.key }}</td>
+                        <td>{{ song_data.feature.bpm }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var sortDirection = {};
+        function sortTable(colIndex) {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("song-table");
+            switching = true;
+            var switchCount = 0;
+            var shouldSwitch;
+            var dir = "asc";
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("td")[colIndex];
+                    y = rows[i + 1].getElementsByTagName("td")[colIndex];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchCount ++;
+                } else {
+                    if (switchCount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
