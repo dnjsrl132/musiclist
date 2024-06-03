@@ -7,3 +7,6 @@ class FeatureForm(forms.ModelForm):
     class Meta:
         model = Feature
         fields = '__all__'
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

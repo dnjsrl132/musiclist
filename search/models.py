@@ -10,8 +10,8 @@ class Feature(models.Model):
     energy = models.IntegerField()
     valence = models.IntegerField()
     danceability = models.IntegerField()
-    mode = models.IntegerField()
-    key = models.IntegerField()
+    mode = models.CharField(max_length=10)
+    key = models.CharField(max_length=10)
     bpm = models.IntegerField()
 
     def __str__(self):

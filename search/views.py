@@ -1,6 +1,10 @@
+import csv
+from io import TextIOWrapper
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import *
+from django.db.models import Avg
 from search.forms import *
 from search.models import *
 
@@ -80,8 +84,67 @@ def add_feature(request):
     return render(request, 'add_feature.html', {'form': form})
 
 
-def match(request):
+def dele(request):
     artists = Feature.objects.all()  # 객체를 가져올 때 .objects.all()을 사용합니다.
     for artist in artists:
         artist.delete()
     return redirect('search:search')
+
+def match(request):
+    artists = Artist.objects.all()
+    for artist in artists:
+        average_features = Song.objects.filter(artist=artist).aggregate(
+            average_speechiness=Avg('feature__speechiness'),
+            average_liveness=Avg('feature__liveness'),
+            average_acousticness=Avg('feature__acousticness'),
+            average_energy=Avg('feature__energy'),
+            average_valence=Avg('feature__valence'),
+            average_danceability=Avg('feature__danceability'),
+            average_bpm=Avg('feature__bpm'),
+        )
+        artist.feature.speechiness = average_features['average_speechiness']
+        artist.feature.liveness = average_features['average_liveness']
+        artist.feature.acousticness = average_features['average_acousticness']
+        artist.feature.energy = average_features['average_energy']
+        artist.feature.valence = average_features['average_valence']
+        artist.feature.danceability = average_features['average_danceability']
+        artist.feature.bpm = average_features['average_bpm']
+        artist.save()
+    return redirect('search:search')
+
+def add_new(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            file_data = TextIOWrapper(file, encoding='utf-8')
+            reader = csv.DictReader(file_data)
+
+            for row in reader:
+                name = row['track_name']
+                new_feature = Feature.objects.filter(name=name)
+                if new_feature:
+                    continue
+                feature = Feature.objects.create(
+                    name = row['track_name'],
+                    oner = False,
+                    speechiness = row['speechiness_%'],
+                    liveness = row['liveness_%'],
+                    acousticness = row['acousticness_%'],
+                    energy = row['energy_%'],
+                    valence = row['valence_%'],
+                    danceability = row['danceability_%'],
+                    mode = row['mode'],
+                    bpm = row['bpm'],
+                    key = row['key']
+                )
+                artist = row['artist(s)_name']
+                artist_model = Artist.objects.filter(name=artist).first()
+                if not artist_model:
+                    artist_model, created = Artist.objects.get_or_create(name=artist, feature=feature)
+                song = Song.objects.create(name=feature.name, feature=feature, artist=artist_model)
+            return redirect('search:search')
+    else :
+        form = UploadFileForm()
+
+    return render(request, 'upload.html', {'form': form})
