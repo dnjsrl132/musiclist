@@ -8,9 +8,7 @@ from django.db.models import Avg
 from search.forms import *
 from search.models import *
 
-def hello_world(request):
-    return HttpResponse('Hello world!')
-
+#검색 결과
 class SearchView(TemplateView):
     template_name = 'search.html'
 
@@ -31,6 +29,7 @@ class SearchView(TemplateView):
         context['query'] = query
         return context
 
+#특정 가수 눌렀을 때 곡 리스트
 class SongView(ListView):
     model = Song
     template_name = 'song_list.html'
@@ -41,6 +40,7 @@ class SongView(ListView):
         artist = Artist.objects.get(name=artist_name)
         songs = Song.objects.filter(artist=artist)
         queryset = []
+        queryset.append(artist)
         for song in songs:
             song_data = {
                 'song': song,
@@ -58,41 +58,21 @@ class SongView(ListView):
                 }
             }
             queryset.append(song_data)
-
         return queryset
 
 
-def add_feature(request):
-    if request.method == 'POST':
-        form = FeatureForm(request.POST)
-        if form.is_valid():
-            feature = form.save(commit=False)
-
-            artist = form.cleaned_data['artist']
-            if not form.cleaned_data['oner']:
-                feature.save()
-                artist_model = Artist.objects.filter(name=artist).first()
-                if not artist_model:
-                    artist_model, created = Artist.objects.get_or_create(name=artist, feature=feature)
-                song = Song.objects.create(name=feature.name, feature=feature,artist=artist_model)
-            else:
-                feature.save()
-                artist_model, created = Artist.objects.get_or_create(name=feature.name, feature=feature)
-            return redirect('search:search')
-    else:
-        form = FeatureForm()
-    return render(request, 'add_feature.html', {'form': form})
-
-
+#DB 삭제
 def dele(request):
     artists = Feature.objects.all()  # 객체를 가져올 때 .objects.all()을 사용합니다.
     for artist in artists:
         artist.delete()
     return redirect('search:search')
 
+#가수 평균 구하기
 def match(request):
     artists = Artist.objects.all()
     for artist in artists:
+        feature = Feature.objects.filter(name=artist.name).first()
         average_features = Song.objects.filter(artist=artist).aggregate(
             average_speechiness=Avg('feature__speechiness'),
             average_liveness=Avg('feature__liveness'),
@@ -102,16 +82,18 @@ def match(request):
             average_danceability=Avg('feature__danceability'),
             average_bpm=Avg('feature__bpm'),
         )
-        artist.feature.speechiness = average_features['average_speechiness']
-        artist.feature.liveness = average_features['average_liveness']
-        artist.feature.acousticness = average_features['average_acousticness']
-        artist.feature.energy = average_features['average_energy']
-        artist.feature.valence = average_features['average_valence']
-        artist.feature.danceability = average_features['average_danceability']
-        artist.feature.bpm = average_features['average_bpm']
-        artist.save()
+        feature.oner = True
+        feature.speechiness = average_features['average_speechiness']
+        feature.liveness = average_features['average_liveness']
+        feature.acousticness = average_features['average_acousticness']
+        feature.energy = average_features['average_energy']
+        feature.valence = average_features['average_valence']
+        feature.danceability = average_features['average_danceability']
+        feature.bpm = average_features['average_bpm']
+        feature.save()
     return redirect('search:search')
 
+#csv 파일 입력
 def add_new(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
@@ -141,7 +123,20 @@ def add_new(request):
                 artist = row['artist(s)_name']
                 artist_model = Artist.objects.filter(name=artist).first()
                 if not artist_model:
-                    artist_model, created = Artist.objects.get_or_create(name=artist, feature=feature)
+                    artist_feature, created = Feature.objects.get_or_create(
+                        name = artist,
+                        oner = True,
+                        speechiness = row['speechiness_%'],
+                        liveness = row['liveness_%'],
+                        acousticness = row['acousticness_%'],
+                        energy = row['energy_%'],
+                        valence = row['valence_%'],
+                        danceability = row['danceability_%'],
+                        mode = row['mode'],
+                        bpm = row['bpm'],
+                        key = row['key']
+                    )
+                    artist_model, created = Artist.objects.get_or_create(name=artist, feature=artist_feature)
                 song = Song.objects.create(name=feature.name, feature=feature, artist=artist_model)
             return redirect('search:search')
     else :
