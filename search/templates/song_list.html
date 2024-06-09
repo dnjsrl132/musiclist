@@ -9,9 +9,15 @@
             cursor: pointer;
         }
     </style>
+    {% block graph %}
 </head>
 <body>
+    <div id="columnchart_values"></div> 
+    
+    <!-- feature 막대 그래프 -->
+
     <div class="container mt-5">
+        <button class="btn btn-primary btn-sm" onclick="location.href='/'">home</button>
         <h1 class="mb-4">Song List</h1>
         <table class="table" id="song-table">
             <thead>
