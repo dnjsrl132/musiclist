@@ -45,12 +45,12 @@ class SongView(ListView):
                 'song': song,
                 'artist': artist,
                 'feature': {
-                    'speechiness': int(song.feature.speechiness * 1000),
-                    'liveness': int(song.feature.liveness * 1000),
-                    'acousticness': int(song.feature.acousticness * 1000),
-                    'energy': int(song.feature.energy * 1000),
-                    'valence': int(song.feature.valence * 1000),
-                    'danceability': int(song.feature.danceability * 1000),
+                    'speechiness': int(song.feature.speechiness),
+                    'liveness': int(song.feature.liveness),
+                    'acousticness': int(song.feature.acousticness),
+                    'energy': int(song.feature.energy),
+                    'valence': int(song.feature.valence),
+                    'danceability': int(song.feature.danceability),
                     'mode': song.feature.mode,
                     'key': song.feature.key,
                     'bpm': song.feature.bpm,
@@ -64,12 +64,12 @@ class SongView(ListView):
         artist_name = self.kwargs['artist_name']
         artist = Artist.objects.get(name=artist_name)
         artist_features = {
-            'speechiness': int(artist.feature.speechiness * 1000),
-            'liveness': int(artist.feature.liveness * 1000),
-            'acousticness': int(artist.feature.acousticness * 1000),
-            'energy': int(artist.feature.energy * 1000),
-            'valence': int(artist.feature.valence * 1000),
-            'danceability': int(artist.feature.danceability * 1000),
+            'speechiness': int(artist.feature.speechiness),
+            'liveness': int(artist.feature.liveness),
+            'acousticness': int(artist.feature.acousticness),
+            'energy': int(artist.feature.energy),
+            'valence': int(artist.feature.valence),
+            'danceability': int(artist.feature.danceability),
             'bpm': artist.feature.bpm
         }
         context['artist'] = {
