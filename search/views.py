@@ -61,10 +61,6 @@ class SongView(ListView):
         return queryset
 
 #유사 아티스트 추천
-def calculate_similarity(value, artist, feature):
-    return abs(value - getattr(artist, feature))
-
-
 class SimilarArtistsView(View):
     def get(self, request, feature, value):
         value = int(value)
@@ -72,7 +68,7 @@ class SimilarArtistsView(View):
 
         similarities = []
         for artist in all_artists:
-            similarity = calculate_similarity(value, artist, feature)
+            similarity = abs(value - getattr(artist, feature))
             similarities.append((artist, similarity))
 
         similarities.sort(key=lambda x: x[1])
