@@ -1,4 +1,3 @@
-<!-- song_list.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,18 +12,16 @@
     <script type="text/javascript">
         google.charts.load("current", {packages:['corechart']});
         google.charts.setOnLoadCallback(drawChart);
+
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ["요소", "밀도", { role: "style" }],
                 ["Speechiness", {{ artist.feature.speechiness }}, ""],
                 ["Liveness", {{ artist.feature.liveness }}, ""],
                 ["Acousticness", {{ artist.feature.acousticness }}, ""],
-                ['Energy', {{ artist.feature.energy }}, ""],
-                ['Valence', {{ artist.feature.valence }}, ""],
-                ['Danceability', {{ artist.feature.danceability }}, ""],
-                ['Mode', {{ artist.feature.mode }}, ""],
-                ['Key', {{ artist.feature.key }}, ""],
-                ['BPM', {{ artist.feature.bpm }}, ""]
+                ["Energy", {{ artist.feature.energy }}, ""],
+                ["Valence", {{ artist.feature.valence }}, ""],
+                ["Danceability", {{ artist.feature.danceability }}, ""]
             ]);
 
             var view = new google.visualization.DataView(data);
@@ -47,16 +44,14 @@
             chart.draw(view, options);
         }
     </script>
-    <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
 </head>
 <body>
-    <div id="columnchart_values"></div> 
     
-    <!-- feature 막대 그래프 -->
-
     <div class="container mt-5">
-        <button class="btn btn-primary btn-sm" onclick="location.href='/'">home</button>
-        <h1 class="mb-4">Song List</h1>
+        <div>
+            <button class="btn btn-primary btn-sm" onclick="location.href='/'">Home</button>  
+            <div id="columnchart_values" style="width: 900px; height: 400px;"></div>
+        </div>
         <table class="table" id="song-table">
             <thead>
                 <tr>
@@ -74,19 +69,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td></td>
-                    <td>{{ artist.name }}</td>
-                    <td>{{ artist.feature.speechiness }}</td>
-                    <td>{{ artist.feature.liveness }}</td>
-                    <td>{{ artist.feature.acousticness }}</td>
-                    <td>{{ artist.feature.energy }}</td>
-                    <td>{{ artist.feature.valence }}</td>
-                    <td>{{ artist.feature.danceability }}</td>
-                    <td>{{ artist.feature.mode }}</td>
-                    <td>{{ artist.feature.key }}</td>
-                    <td>{{ artist.feature.bpm }}</td>
-                </tr>
                 {% for song_data in song_list %}
                     <tr>
                         <td>{{ song_data.song.name }}</td>
