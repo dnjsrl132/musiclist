@@ -15,14 +15,14 @@
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                ["요소", "밀도", { role: "style" }],
-                ["Speechiness", {{ artist.feature.speechiness }}, ""],
-                ["Liveness", {{ artist.feature.liveness }}, ""],
-                ["Acousticness", {{ artist.feature.acousticness }}, ""],
-                ["Energy", {{ artist.feature.energy }}, ""],
-                ["Valence", {{ artist.feature.valence }}, ""],
-                ["Danceability", {{ artist.feature.danceability }}, ""]
-            ]);
+              ["요소", "밀도", { role: "style" }, { role: "link" }],
+              ["Speechiness", {{ artist.feature.speechiness }}, "", "{% url 'search:similar' feature='speechiness' value=artist.feature.speechiness %}"],
+              ["Liveness", {{ artist.feature.liveness }}, "", "{% url 'search:similar' feature='liveness' value=artist.feature.liveness %}"],
+              ["Acousticness", {{ artist.feature.acousticness }}, "", "{% url 'search:similar' feature='acousticness' value=artist.feature.acousticness %}"],
+              ["Energy", {{ artist.feature.energy }}, "", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
+              ["Valence", {{ artist.feature.valence }}, "", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
+              ["Danceability", {{ artist.feature.danceability }}, "", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"]
+          ]);
 
             var view = new google.visualization.DataView(data);
             view.setColumns([0, 1,
@@ -41,6 +41,13 @@
             };
 
             var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+            google.visualization.events.addListener(chart, 'select', function() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var link = data.getValue(selectedItem.row, 3);
+                    window.location.href = link;
+                 }
+            });
             chart.draw(view, options);
         }
     </script>
