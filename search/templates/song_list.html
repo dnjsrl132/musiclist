@@ -46,7 +46,6 @@
     </script>
 </head>
 <body>
-    
     <div class="container mt-5">
         <div>
             <button class="btn btn-primary btn-sm" onclick="location.href='/'">Home</button>  
@@ -70,19 +69,35 @@
             </thead>
             <tbody>
                 {% for song_data in song_list %}
-                    <tr>
-                        <td>{{ song_data.song.name }}</td>
-                        <td>{{ song_data.artist.name }}</td>
-                        <td>{{ song_data.feature.speechiness }}</td>
-                        <td>{{ song_data.feature.liveness }}</td>
-                        <td>{{ song_data.feature.acousticness }}</td>
-                        <td>{{ song_data.feature.energy }}</td>
-                        <td>{{ song_data.feature.valence }}</td>
-                        <td>{{ song_data.feature.danceability }}</td>
-                        <td>{{ song_data.feature.mode }}</td>
-                        <td>{{ song_data.feature.key }}</td>
-                        <td>{{ song_data.feature.bpm }}</td>
-                    </tr>
+                    {% if song_data.song.name %}
+                        <tr>
+                            <td>{{ song_data.song.name }}</td>
+                            <td>{{ song_data.artist.name }}</td>
+                            <td>{{ song_data.feature.speechiness }}</td>
+                            <td>{{ song_data.feature.liveness }}</td>
+                            <td>{{ song_data.feature.acousticness }}</td>
+                            <td>{{ song_data.feature.energy }}</td>
+                            <td>{{ song_data.feature.valence }}</td>
+                            <td>{{ song_data.feature.danceability }}</td>
+                            <td>{{ song_data.feature.mode }}</td>
+                            <td>{{ song_data.feature.key }}</td>
+                            <td>{{ song_data.feature.bpm }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td></td>
+                            <td>{{ song_data.name }}</td>
+                            <td><a href="{% url 'search:similar' feature='speechiness' value=song_data.feature.speechiness %}">{{ song_data.feature.speechiness }}</a></td>
+                            <td><a href="{% url 'search:similar' feature='liveness' value=song_data.feature.liveness %}">{{ song_data.feature.liveness }}</a></td>
+                            <td><a href="{% url 'search:similar' feature='acousticness' value=song_data.feature.acousticness %}">{{ song_data.feature.acousticness }}</a></td>
+                            <td><a href="{% url 'search:similar' feature='energy' value=song_data.feature.energy %}">{{ song_data.feature.energy }}</a></td>
+                            <td><a href="{% url 'search:similar' feature='valence' value=song_data.feature.valence %}">{{ song_data.feature.valence }}</a></td>
+                            <td><a href="{% url 'search:similar' feature='danceability' value=song_data.feature.danceability %}">{{ song_data.feature.danceability }}</a></td>
+                            <td>{{ song_data.feature.mode }}</td>
+                            <td>{{ song_data.feature.key }}</td>
+                            <td><a href="{% url 'search:similar' feature='bpm' value=song_data.feature.bpm %}">{{ song_data.feature.bpm }}</a></td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>

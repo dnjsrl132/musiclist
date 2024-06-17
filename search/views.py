@@ -58,7 +58,7 @@ class SongView(ListView):
             }
             queryset.append(song_data)
         return queryset
-
+      
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artist_name = self.kwargs['artist_name']
@@ -77,6 +77,29 @@ class SongView(ListView):
             'feature': artist_features
         }
         return context
+
+
+#유사 아티스트 추천
+class SimilarArtistsView(View):
+    def get(self, request, feature, value):
+        value = int(value)
+        all_artists = Feature.objects.filter(oner=True)
+
+        similarities = []
+        for artist in all_artists:
+            similarity = abs(value - getattr(artist, feature))
+            similarities.append((artist, similarity))
+
+        similarities.sort(key=lambda x: x[1])
+
+        top_10_artists = [artist for artist, _ in similarities[:10]]
+        similar = []
+        for artist in top_10_artists:
+            temp_artist = Artist.objects.filter(name=artist)[0]
+            similar.append(temp_artist)
+
+        return render(request, 'similar_artists.html',
+                      {'feature': feature, 'value': value, 'similar_artists': similar})
 
 
 #DB 삭제
@@ -109,6 +132,9 @@ def match(request):
         feature.danceability = average_features['average_danceability']
         feature.bpm = average_features['average_bpm']
         feature.save()
+        artist.feature = feature
+        artist.save()
+        print(artist.feature.key)
     return redirect('search:search')
 
 #csv 파일 입력
