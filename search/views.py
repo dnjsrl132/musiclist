@@ -40,18 +40,17 @@ class SongView(ListView):
         artist = Artist.objects.get(name=artist_name)
         songs = Song.objects.filter(artist=artist)
         queryset = []
-        queryset.append(artist)
         for song in songs:
             song_data = {
                 'song': song,
                 'artist': artist,
                 'feature': {
-                    'speechiness': song.feature.speechiness,
-                    'liveness': song.feature.liveness,
-                    'acousticness': song.feature.acousticness,
-                    'energy': song.feature.energy,
-                    'valence': song.feature.valence,
-                    'danceability': song.feature.danceability,
+                    'speechiness': int(song.feature.speechiness),
+                    'liveness': int(song.feature.liveness),
+                    'acousticness': int(song.feature.acousticness),
+                    'energy': int(song.feature.energy),
+                    'valence': int(song.feature.valence),
+                    'danceability': int(song.feature.danceability),
                     'mode': song.feature.mode,
                     'key': song.feature.key,
                     'bpm': song.feature.bpm,
@@ -59,6 +58,26 @@ class SongView(ListView):
             }
             queryset.append(song_data)
         return queryset
+      
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        artist_name = self.kwargs['artist_name']
+        artist = Artist.objects.get(name=artist_name)
+        artist_features = {
+            'speechiness': int(artist.feature.speechiness),
+            'liveness': int(artist.feature.liveness),
+            'acousticness': int(artist.feature.acousticness),
+            'energy': int(artist.feature.energy),
+            'valence': int(artist.feature.valence),
+            'danceability': int(artist.feature.danceability),
+            'bpm': artist.feature.bpm
+        }
+        context['artist'] = {
+            'name': artist.name,
+            'feature': artist_features
+        }
+        return context
+
 
 #유사 아티스트 추천
 class SimilarArtistsView(View):
@@ -81,6 +100,7 @@ class SimilarArtistsView(View):
 
         return render(request, 'similar_artists.html',
                       {'feature': feature, 'value': value, 'similar_artists': similar})
+
 
 #DB 삭제
 def dele(request):
