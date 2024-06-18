@@ -21,7 +21,8 @@
               ["Acousticness", {{ artist.feature.acousticness }}, "", "{% url 'search:similar' feature='acousticness' value=artist.feature.acousticness %}"],
               ["Energy", {{ artist.feature.energy }}, "", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
               ["Valence", {{ artist.feature.valence }}, "", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
-              ["Danceability", {{ artist.feature.danceability }}, "", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"]
+              ["Danceability", {{ artist.feature.danceability }}, "", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"],
+              ["Bpm", {{artist.feature.bpm}}, "", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"]
           ]);
 
             var view = new google.visualization.DataView(data);
