@@ -21,11 +21,33 @@ class SearchView(TemplateView):
             features = Feature.objects.filter(name__icontains=query)
             for feature in features:
                 if feature.oner:
-                    results.append({'artist': feature.name, 'feature': feature})
+                    results.append({'artist': feature.name, 'feature': {
+                            'speechiness': int(feature.speechiness),
+                            'liveness': int(feature.liveness),
+                            'acousticness': int(feature.acousticness),
+                            'energy': int(feature.energy),
+                            'valence': int(feature.valence),
+                            'danceability': int(feature.danceability),
+                            'mode': feature.mode,
+                            'key': feature.key,
+                            'bpm': feature.bpm,
+                            'instrumentalness': int(feature.instrumentalness)
+                        }})
                 else:
                     song = Song.objects.filter(feature=feature).first()
                     if song:
-                        results.append({'artist': song.artist.name, 'feature': feature})
+                        results.append({'artist': song.artist.name, 'feature': {
+                            'speechiness': int(feature.speechiness),
+                            'liveness': int(feature.liveness),
+                            'acousticness': int(feature.acousticness),
+                            'energy': int(feature.energy),
+                            'valence': int(feature.valence),
+                            'danceability': int(feature.danceability),
+                            'mode': feature.mode,
+                            'key': feature.key,
+                            'bpm': feature.bpm,
+                            'instrumentalness': int(feature.instrumentalness)
+                        }})
             context['results'] = results
         context['query'] = query
         return context
@@ -55,7 +77,7 @@ class SongView(ListView):
                     'mode': song.feature.mode,
                     'key': song.feature.key,
                     'bpm': song.feature.bpm,
-                    'instrumentalness': song.feature.instrumentalness
+                    'instrumentalness': int(song.feature.instrumentalness)
                 }
             }
             queryset.append(song_data)
@@ -72,8 +94,8 @@ class SongView(ListView):
             'energy': int(artist.feature.energy),
             'valence': int(artist.feature.valence),
             'danceability': int(artist.feature.danceability),
-            'bpm': artist.feature.bpm,
-            'instrumentalness' : artist.feature.instrumentalness
+            'bpm': int(artist.feature.bpm),
+            'instrumentalness' : int(artist.feature.instrumentalness)
         }
         context['artist'] = {
             'name': artist.name,
