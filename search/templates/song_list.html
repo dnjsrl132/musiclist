@@ -93,12 +93,48 @@
                                 <tr>
                                     <td>{{ song_data.song.name }}</td>
                                     <td>{{ song_data.artist.name }}</td>
-                                    <td>{{ song_data.feature.speechiness }}</td>
-                                    <td>{{ song_data.feature.liveness }}</td>
-                                    <td>{{ song_data.feature.acousticness }}</td>
-                                    <td>{{ song_data.feature.energy }}</td>
-                                    <td>{{ song_data.feature.valence }}</td>
-                                    <td>{{ song_data.feature.danceability }}</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.speechiness }}%;" aria-valuenow="{{ artist.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ song_data.feature.speechiness }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.liveness }}%;" aria-valuenow="{{ artist.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.liveness}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.acousticness }}%;" aria-valuenow="{{ artist.feature.acousticness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ song_data.feature.acousticness }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.energy }}%;" aria-valuenow="{{ artist.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.energy}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.valence }}%;" aria-valuenow="{{ artist.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.valence}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.danceability}}%
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>{{ song_data.feature.mode }}</td>
                                     <td>{{ song_data.feature.key }}</td>
                                     <td>{{ song_data.feature.bpm }}</td>
