@@ -3,23 +3,26 @@
 <head>
     <title>Search</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container w-70">
         <div class="d-flex justify-content-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
         </div>
         <form method="get" action=".">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" name="q" placeholder="Search..." aria-label="Search" aria-describedby="button-search">
-                <button class="btn" style="background-color: #1DB954;" 
-                type="submit" id="button-search">Search</button>
+                <button class="btn" style="background-color: #1DB954;" type="submit" id="button-search">
+                    <i class="bi bi-search text-white"></i>
+                </button>
             </div>
         </form>
         {% if query %}
             <p>You searched for: <strong>{{ query }}</strong></p>
             {% if results %}
-                <table class="table">
+            <div class="table-responsive small">
+                <table class="table table-striped table-sm">
                     <thead>
                         <tr>
                             <th>Song</th>
@@ -57,6 +60,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
+            </div>
             {% else %}
                 <p>No results found.</p>
             {% endif %}
