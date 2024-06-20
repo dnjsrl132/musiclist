@@ -17,14 +17,14 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
               ["요소", "밀도", { role: "style" }, { role: "link" }],
-              ["Speechiness", {{ artist.feature.speechiness }}, "#00cc33", "{% url 'search:similar' feature='speechiness' value=artist.feature.speechiness %}"],
-              ["Liveness", {{ artist.feature.liveness }}, "#00cc33", "{% url 'search:similar' feature='liveness' value=artist.feature.liveness %}"],
-              ["Acousticness", {{ artist.feature.acousticness }}, "#00cc33", "{% url 'search:similar' feature='acousticness' value=artist.feature.acousticness %}"],
-              ["Energy", {{ artist.feature.energy }}, "#00cc33", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
-              ["Valence", {{ artist.feature.valence }}, "#00cc33", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
-              ["Danceability", {{ artist.feature.danceability }}, "#00cc33", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"],
-              ["instrumentalness", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='instrumentalness' value=artist.feature.instrumentalness %}"],
-              ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"],
+              ["Speechiness", {{ artist.feature.speechiness }}, "#00cc33", "{% url 'search:similar' feature='speechiness' name=artist.name %}"],
+              ["Liveness", {{ artist.feature.liveness }}, "#00cc33", "{% url 'search:similar' feature='liveness' name=artist.name %}"],
+              ["Acousticness", {{ artist.feature.acousticness }}, "#00cc33", "{% url 'search:similar' feature='acousticness' name=artist.name %}"],
+              ["Energy", {{ artist.feature.energy }}, "#00cc33", "{% url 'search:similar' feature='energy' name=artist.name %}"],
+              ["Valence", {{ artist.feature.valence }}, "#00cc33", "{% url 'search:similar' feature='valence' name=artist.name %}"],
+              ["Danceability", {{ artist.feature.danceability }}, "#00cc33", "{% url 'search:similar' feature='danceability' name=artist.name %}"],
+              ["instrumentalness", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='instrumentalness' name=artist.name %}"],
+              ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' name=artist.name %}"],
           ]);
 
             var view = new google.visualization.DataView(data);
