@@ -36,12 +36,48 @@
                         {% for artist in similar_artists %}
                             <tr>
                                 <td><a href="{% url 'search:songlist' artist_name=artist.name %}">{{ artist.name }}</a></td>
-                                <td>{{ artist.feature.speechiness }}</td>
-                                <td>{{ artist.feature.liveness }}</td>
-                                <td>{{ artist.feature.acousticness }}</td>
-                                <td>{{ artist.feature.energy }}</td>
-                                <td>{{ artist.feature.valence }}</td>
-                                <td>{{ artist.feature.danceability }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.speechiness }}%;" aria-valuenow="{{ artist.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ artist.feature.speechiness }}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.liveness }}%;" aria-valuenow="{{ artist.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{artist.feature.liveness}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.acousticness }}%;" aria-valuenow="{{ artist.feature.acousticness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ artist.feature.acousticness }}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.energy }}%;" aria-valuenow="{{ artist.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{artist.feature.energy}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.valence }}%;" aria-valuenow="{{ artist.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{artist.feature.valence}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{artist.feature.danceability}}%
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ artist.feature.mode }}</td>
                                 <td>{{ artist.feature.key }}</td>
                                 <td>{{ artist.feature.bpm }}</td>
