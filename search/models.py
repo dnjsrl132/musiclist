@@ -13,6 +13,8 @@ class Feature(models.Model):
     mode = models.CharField(max_length=10)
     key = models.CharField(max_length=10)
     bpm = models.IntegerField()
+    instrumentalness = models.IntegerField()
+    release_date = models.DateField()
 
     def __str__(self):
         return self.name

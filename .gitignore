@@ -78,4 +78,5 @@ fabric.properties
 
 venv/
 db.sqlite3
+db.sqlite4
 .idea/

@@ -23,7 +23,8 @@
               ["Energy", {{ artist.feature.energy }}, "#00cc33", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
               ["Valence", {{ artist.feature.valence }}, "#00cc33", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
               ["Danceability", {{ artist.feature.danceability }}, "#00cc33", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"],
-              ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"]
+              ["instrumentalness", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='instrumentalness' value=artist.feature.instrumentalness %}"],
+              ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"],
           ]);
 
             var view = new google.visualization.DataView(data);
@@ -85,9 +86,11 @@
                                 <th onclick="sortTable(5)">Energy</th>
                                 <th onclick="sortTable(6)">Valence</th>
                                 <th onclick="sortTable(7)">Danceability</th>
-                                <th onclick="sortTable(8)">Mode</th>
-                                <th onclick="sortTable(9)">Key</th>
-                                <th onclick="sortTable(10)">BPM</th>
+                                <th onclick="sortTable(8)">instrumentalness</th>
+                                <th onclick="sortTable(9)">Mode</th>
+                                <th onclick="sortTable(10)">Key</th>
+                                <th onclick="sortTable(11)">BPM</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -134,6 +137,13 @@
                                         <div class="progress">
                                             <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
                                                 {{song_data.feature.danceability}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.instrumentalness }}%;" aria-valuenow="{{ artist.feature.instrumentalness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.instrumentalness}}%
                                             </div>
                                         </div>
                                     </td>

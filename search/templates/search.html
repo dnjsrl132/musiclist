@@ -8,7 +8,9 @@
 <body>
     <div class="container w-70">
         <div class="d-flex justify-content-center">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
+            <a href="{% url 'search:search' %}">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Spotify Logo">
+            </a>
         </div>
         <form method="get" action=".">
             <div class="input-group mb-3">
@@ -33,6 +35,7 @@
                             <th>Energy</th>
                             <th>Valence</th>
                             <th>Danceability</th>
+                            <th>instrumentalness</th>
                             <th>Mode</th>
                             <th>Key</th>
                             <th>BPM</th>
@@ -86,6 +89,12 @@
                                     <div class="progress">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
                                             {{result.feature.danceability}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.instrumentalness }}%;" aria-valuenow="{{ artist.feature.instrumentalness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{result.feature.instrumentalness}}%
                                         </div>
                                     </div>
                                 </td>

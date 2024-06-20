@@ -1,4 +1,5 @@
 import csv
+from datetime import date
 from io import TextIOWrapper
 
 from django.http import HttpResponse
@@ -54,6 +55,7 @@ class SongView(ListView):
                     'mode': song.feature.mode,
                     'key': song.feature.key,
                     'bpm': song.feature.bpm,
+                    'instrumentalness': song.feature.instrumentalness
                 }
             }
             queryset.append(song_data)
@@ -70,7 +72,8 @@ class SongView(ListView):
             'energy': int(artist.feature.energy),
             'valence': int(artist.feature.valence),
             'danceability': int(artist.feature.danceability),
-            'bpm': artist.feature.bpm
+            'bpm': artist.feature.bpm,
+            'instrumentalness' : artist.feature.instrumentalness
         }
         context['artist'] = {
             'name': artist.name,
@@ -104,7 +107,13 @@ class SimilarArtistsView(View):
 
 #DB 삭제
 def dele(request):
-    artists = Feature.objects.all()  # 객체를 가져올 때 .objects.all()을 사용합니다.
+    artists = Feature.objects.all()
+    for artist in artists:
+        artist.delete()
+    artists = Song.objects.all()
+    for artist in artists:
+        artist.delete()
+    artists = Artist.objects.all()
     for artist in artists:
         artist.delete()
     return redirect('search:search')
@@ -122,6 +131,7 @@ def match(request):
             average_valence=Avg('feature__valence'),
             average_danceability=Avg('feature__danceability'),
             average_bpm=Avg('feature__bpm'),
+            instrumentalness_bpm=Avg('feature__instrumentalness'),
         )
         feature.oner = True
         feature.speechiness = average_features['average_speechiness']
@@ -131,6 +141,7 @@ def match(request):
         feature.valence = average_features['average_valence']
         feature.danceability = average_features['average_danceability']
         feature.bpm = average_features['average_bpm']
+        feature.instrumentalness = average_features['average_instrumentalness']
         feature.save()
         artist.feature = feature
         artist.save()
@@ -151,6 +162,7 @@ def add_new(request):
                 new_feature = Feature.objects.filter(name=name)
                 if new_feature:
                     continue
+                release_date = date(int(row['released_year']), int(row['released_month']), int(row['released_day']))
                 feature = Feature.objects.create(
                     name = row['track_name'],
                     oner = False,
@@ -162,7 +174,9 @@ def add_new(request):
                     danceability = row['danceability_%'],
                     mode = row['mode'],
                     bpm = row['bpm'],
-                    key = row['key']
+                    key = row['key'],
+                    instrumentalness = row['instrumentalness_%'],
+                    release_date=release_date
                 )
                 artist = row['artist(s)_name']
                 artist_model = Artist.objects.filter(name=artist).first()
@@ -178,7 +192,9 @@ def add_new(request):
                         danceability = row['danceability_%'],
                         mode = row['mode'],
                         bpm = row['bpm'],
-                        key = row['key']
+                        key = row['key'],
+                        instrumentalness = row['instrumentalness_%'],
+                        release_date = release_date
                     )
                     artist_model, created = Artist.objects.get_or_create(name=artist, feature=artist_feature)
                 song = Song.objects.create(name=feature.name, feature=feature, artist=artist_model)

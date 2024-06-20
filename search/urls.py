@@ -10,4 +10,5 @@ urlpatterns = [
     path('songs/<str:artist_name>/',SongView.as_view(),name="songlist"),
     path('match/',match,name="match"),
     path('similar/<str:feature>/<int:value>/', SimilarArtistsView.as_view(), name='similar'),
+    path('dele/',dele,name="dele"),
 ]
