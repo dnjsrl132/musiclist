@@ -3,6 +3,7 @@
 <head>
     <title>Song List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
         th {
             cursor: pointer;
@@ -16,13 +17,13 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
               ["요소", "밀도", { role: "style" }, { role: "link" }],
-              ["Speechiness", {{ artist.feature.speechiness }}, "", "{% url 'search:similar' feature='speechiness' value=artist.feature.speechiness %}"],
-              ["Liveness", {{ artist.feature.liveness }}, "", "{% url 'search:similar' feature='liveness' value=artist.feature.liveness %}"],
-              ["Acousticness", {{ artist.feature.acousticness }}, "", "{% url 'search:similar' feature='acousticness' value=artist.feature.acousticness %}"],
-              ["Energy", {{ artist.feature.energy }}, "", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
-              ["Valence", {{ artist.feature.valence }}, "", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
-              ["Danceability", {{ artist.feature.danceability }}, "", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"],
-              ["Bpm", {{artist.feature.bpm}}, "", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"]
+              ["Speechiness", {{ artist.feature.speechiness }}, "#00cc33", "{% url 'search:similar' feature='speechiness' value=artist.feature.speechiness %}"],
+              ["Liveness", {{ artist.feature.liveness }}, "#00cc33", "{% url 'search:similar' feature='liveness' value=artist.feature.liveness %}"],
+              ["Acousticness", {{ artist.feature.acousticness }}, "#00cc33", "{% url 'search:similar' feature='acousticness' value=artist.feature.acousticness %}"],
+              ["Energy", {{ artist.feature.energy }}, "#00cc33", "{% url 'search:similar' feature='energy' value=artist.feature.energy %}"],
+              ["Valence", {{ artist.feature.valence }}, "#00cc33", "{% url 'search:similar' feature='valence' value=artist.feature.valence %}"],
+              ["Danceability", {{ artist.feature.danceability }}, "#00cc33", "{% url 'search:similar' feature='danceability' value=artist.feature.danceability %}"],
+              ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' value=artist.feature.bpm %}"]
           ]);
 
             var view = new google.visualization.DataView(data);
@@ -34,14 +35,14 @@
                 2]);
 
             var options = {
-                title: "{{ artist.name }}",
-                width: 600,
-                height: 400,
-                bar: {groupWidth: "45%"},
+                width: 1100,
+                height: 350,
+                bar: {groupWidth: "35%"},
                 legend: { position: "none" },
             };
 
             var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+
             google.visualization.events.addListener(chart, 'select', function() {
                 var selectedItem = chart.getSelection()[0];
                 if (selectedItem) {
@@ -49,51 +50,107 @@
                     window.location.href = link;
                  }
             });
+
             chart.draw(view, options);
         }
     </script>
 </head>
 <body>
-    <div class="container mt-5">
-        <div>
-            <button class="btn btn-primary btn-sm" onclick="location.href='/'">Home</button>  
-            <div id="columnchart_values" style="width: 900px; height: 400px;"></div>
+    <main>
+        <div class="container py-4">
+          <header class="pb-3 mb-4 border-bottom">
+            <button class="btn" style="background-color: #1DB954;" onclick="location.href='/'">
+                <i class="bi bi-house-door-fill text-white">Home</i>
+            </button>
+          </header>
+        <div class="p-4">
+            <h3>{{artist.name}}'s Feature Graph</h3>
+            <div class="d-flex justify-content-start" id="columnchart_values" style="width: 0px; height: 350px;"></div> 
         </div>
-        <table class="table" id="song-table">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Song</th>
-                    <th onclick="sortTable(1)">Artist</th>
-                    <th onclick="sortTable(2)">Speechiness</th>
-                    <th onclick="sortTable(3)">Liveness</th>
-                    <th onclick="sortTable(4)">Acousticness</th>
-                    <th onclick="sortTable(5)">Energy</th>
-                    <th onclick="sortTable(6)">Valence</th>
-                    <th onclick="sortTable(7)">Danceability</th>
-                    <th onclick="sortTable(8)">Mode</th>
-                    <th onclick="sortTable(9)">Key</th>
-                    <th onclick="sortTable(10)">BPM</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for song_data in song_list %}
-                        <tr>
-                            <td>{{ song_data.song.name }}</td>
-                            <td>{{ song_data.artist.name }}</td>
-                            <td>{{ song_data.feature.speechiness }}</td>
-                            <td>{{ song_data.feature.liveness }}</td>
-                            <td>{{ song_data.feature.acousticness }}</td>
-                            <td>{{ song_data.feature.energy }}</td>
-                            <td>{{ song_data.feature.valence }}</td>
-                            <td>{{ song_data.feature.danceability }}</td>
-                            <td>{{ song_data.feature.mode }}</td>
-                            <td>{{ song_data.feature.key }}</td>
-                            <td>{{ song_data.feature.bpm }}</td>
-                        </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
+        <div class="p-4 bg-body-white rounded-1">
+            <div class="container-fluid py-5">
+                <h3>{{artist.name}}'s Song List</h3>
+                <div class="table-responsive small">
+                    <table class="table table-striped table-sm" id="song-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable(0)">Song</th>
+                                <th onclick="sortTable(1)">Artist</th>
+                                <th onclick="sortTable(2)">Speechiness</th>
+                                <th onclick="sortTable(3)">Liveness</th>
+                                <th onclick="sortTable(4)">Acousticness</th>
+                                <th onclick="sortTable(5)">Energy</th>
+                                <th onclick="sortTable(6)">Valence</th>
+                                <th onclick="sortTable(7)">Danceability</th>
+                                <th onclick="sortTable(8)">Mode</th>
+                                <th onclick="sortTable(9)">Key</th>
+                                <th onclick="sortTable(10)">BPM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for song_data in song_list %}
+                                <tr>
+                                    <td>{{ song_data.song.name }}</td>
+                                    <td>{{ song_data.artist.name }}</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.speechiness }}%;" aria-valuenow="{{ artist.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ song_data.feature.speechiness }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.liveness }}%;" aria-valuenow="{{ artist.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.liveness}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.acousticness }}%;" aria-valuenow="{{ artist.feature.acousticness }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ song_data.feature.acousticness }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.energy }}%;" aria-valuenow="{{ artist.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.energy}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.valence }}%;" aria-valuenow="{{ artist.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.valence}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{song_data.feature.danceability}}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{ song_data.feature.mode }}</td>
+                                    <td>{{ song_data.feature.key }}</td>
+                                    <td>{{ song_data.feature.bpm }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+
+          <footer class="pt-3 mt-4 text-body-secondary border-top d-flex justify-content-center">
+            &copy; Spotify
+          </footer>
+        </div>
+      </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var sortDirection = {};
