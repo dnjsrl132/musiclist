@@ -47,12 +47,48 @@
                                 <td>{{ result.feature.name }}</td>
                                 {% endif %}
                                 <td><a href="{% url 'search:songlist' artist_name=result.artist %}">{{ result.artist }}</a></td>
-                                <td>{{ result.feature.speechiness }}</td>
-                                <td>{{ result.feature.liveness }}</td>
-                                <td>{{ result.feature.acousticness }}</td>
-                                <td>{{ result.feature.energy }}</td>
-                                <td>{{ result.feature.valence }}</td>
-                                <td>{{ result.feature.danceability }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.speechiness }}%;" aria-valuenow="{{ artist.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ result.feature.speechiness }}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.liveness }}%;" aria-valuenow="{{ artist.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{result.feature.liveness}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.acousticness }}%;" aria-valuenow="{{ artist.feature.acousticness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ result.feature.acousticness }}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.energy }}%;" aria-valuenow="{{ artist.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{result.feature.energy}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.valence }}%;" aria-valuenow="{{ artist.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{result.feature.valence}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{result.feature.danceability}}%
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ result.feature.mode }}</td>
                                 <td>{{ result.feature.key }}</td>
                                 <td>{{ result.feature.bpm }}</td>
