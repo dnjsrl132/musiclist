@@ -28,7 +28,7 @@
                     <thead>
                         <tr>
                             <th>Song</th>
-                            <th>result</th>
+                            <th>Artist</th>
                             <th>Speechiness</th>
                             <th>Liveness</th>
                             <th>Acousticness</th>
@@ -45,7 +45,7 @@
                         {% for result in results %}
                             <tr>
                                 {% if result.feature.oner %}
-                                <td></td>
+                                <td>{{ result.feature.name }}</td>
                                 {% else %}
                                 <td>{{ result.feature.name }}</td>
                                 {% endif %}
