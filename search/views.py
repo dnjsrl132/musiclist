@@ -22,6 +22,7 @@ class SearchView(TemplateView):
             for feature in features:
                 if feature.oner:
                     results.append({'artist': feature.name, 'feature': {
+                            'name' : feature.name,
                             'speechiness': int(feature.speechiness),
                             'liveness': int(feature.liveness),
                             'acousticness': int(feature.acousticness),
@@ -37,6 +38,7 @@ class SearchView(TemplateView):
                     song = Song.objects.filter(feature=feature).first()
                     if song:
                         results.append({'artist': song.artist.name, 'feature': {
+                            'name' : feature.name,
                             'speechiness': int(feature.speechiness),
                             'liveness': int(feature.liveness),
                             'acousticness': int(feature.acousticness),
@@ -106,10 +108,10 @@ class SongView(ListView):
 
 #유사 아티스트 추천
 class SimilarArtistsView(View):
-    def get(self, request, feature, name):
-        artist = Artist.objects.get(name=name)
-        value = getattr(artist.feature, feature)
+    def get(self, request, feature, value):
+        value = int(value)
         all_artists = Feature.objects.filter(oner=True)
+
         similarities = []
         for artist in all_artists:
             similarity = abs(value - getattr(artist, feature))
@@ -124,7 +126,7 @@ class SimilarArtistsView(View):
             similar.append(temp_artist)
 
         return render(request, 'similar_artists.html',
-                      {'feature': feature, 'value': value, 'similar_artists': similar, 'artist': name})
+                      {'feature': feature, 'value': value, 'similar_artists': similar})
 
 
 #DB 삭제
@@ -153,7 +155,7 @@ def match(request):
             average_valence=Avg('feature__valence'),
             average_danceability=Avg('feature__danceability'),
             average_bpm=Avg('feature__bpm'),
-            average_instrumentalness=Avg('feature__instrumentalness'),
+            instrumentalness_bpm=Avg('feature__instrumentalness'),
         )
         feature.oner = True
         feature.speechiness = average_features['average_speechiness']
