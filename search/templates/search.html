@@ -45,57 +45,93 @@
                         {% for result in results %}
                             <tr>
                                 {% if result.feature.oner %}
-                                <td></td>
+                                <td>{{ result.feature.name }}</td>
                                 {% else %}
                                 <td>{{ result.feature.name }}</td>
                                 {% endif %}
                                 <td><a href="{% url 'search:songlist' artist_name=result.artist %}">{{ result.artist }}</a></td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.speechiness }}%;" aria-valuenow="{{ artist.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.speechiness }}%;" aria-valuenow="{{ result.feature.speechiness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.speechiness >= 20 %}
                                             {{ result.feature.speechiness }}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.speechiness < 20 %}
+                                        {{ result.feature.speechiness }}%
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.liveness }}%;" aria-valuenow="{{ artist.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.liveness }}%;" aria-valuenow="{{ result.feature.liveness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.liveness >= 20 %}
                                             {{result.feature.liveness}}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.liveness < 20 %}
+                                        {{result.feature.liveness}}%
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.acousticness }}%;" aria-valuenow="{{ artist.feature.acousticness }}" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress"role="progressbar" aria-label="Success example" aria-valuenow="" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" style="width: {{ result.feature.acousticness }}%;">
+                                            {% if result.feature.acousticness >= 20 %}
                                             {{ result.feature.acousticness }}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.acousticness < 20 %}
+                                            {{ result.feature.acousticness }}%
+                                            {% endif %}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.energy }}%;" aria-valuenow="{{ artist.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.energy }}%;" aria-valuenow="{{ result.feature.energy }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.energy >= 20 %}
                                             {{result.feature.energy}}%
+                                            {% endif %}
+                                            
                                         </div>
+                                        {% if result.feature.energy < 20 %}
+                                        {{result.feature.energy}}%
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.valence }}%;" aria-valuenow="{{ artist.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.valence }}%;" aria-valuenow="{{ result.feature.valence }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.valence >= 20 %}
                                             {{result.feature.valence}}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.valence < 20 %}
+                                            {{result.feature.valence}}%
+                                            {% endif %}
                                     </div>
                                 </td>
                                 <td>
                                     <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.danceability }}%;" aria-valuenow="{{ artist.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.danceability }}%;" aria-valuenow="{{ result.feature.danceability }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.danceability >= 20 %}
                                             {{result.feature.danceability}}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.danceability < 20 %}
+                                        {{result.feature.danceability}}%
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td><div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ artist.feature.instrumentalness }}%;" aria-valuenow="{{ artist.feature.instrumentalness }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ result.feature.instrumentalness }}%;" aria-valuenow="{{ result.feature.instrumentalness }}" aria-valuemin="0" aria-valuemax="100">
+                                            {% if result.feature.instrumentalness >= 20 %}
                                             {{result.feature.instrumentalness}}%
+                                            {% endif %}
                                         </div>
+                                        {% if result.feature.instrumentalness < 20 %}
+                                        {{result.feature.instrumentalness}}%
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td>{{ result.feature.mode }}</td>
