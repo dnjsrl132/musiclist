@@ -108,25 +108,24 @@ class SongView(ListView):
 
 #유사 아티스트 추천
 class SimilarArtistsView(View):
-    def get(self, request, feature, value):
-        value = int(value)
+    def get(self, request, feature, name):
+        artist = Artist.objects.get(name=name)
+        value = getattr(artist.feature, feature)
         all_artists = Feature.objects.filter(oner=True)
 
         similarities = []
         for artist in all_artists:
             similarity = abs(value - getattr(artist, feature))
             similarities.append((artist, similarity))
-
         similarities.sort(key=lambda x: x[1])
-
         top_10_artists = [artist for artist, _ in similarities[:10]]
         similar = []
         for artist in top_10_artists:
-            temp_artist = Artist.objects.filter(name=artist)[0]
+            temp_artist = Artist.objects.get(name=artist)
             similar.append(temp_artist)
 
         return render(request, 'similar_artists.html',
-                      {'feature': feature, 'value': value, 'similar_artists': similar})
+                      {'feature': feature, 'value': value, 'similar_artists': similar, 'artist': name})
 
 
 #DB 삭제
@@ -155,7 +154,7 @@ def match(request):
             average_valence=Avg('feature__valence'),
             average_danceability=Avg('feature__danceability'),
             average_bpm=Avg('feature__bpm'),
-            instrumentalness_bpm=Avg('feature__instrumentalness'),
+            average_instrumentalness=Avg('feature__instrumentalness'),
         )
         feature.oner = True
         feature.speechiness = average_features['average_speechiness']

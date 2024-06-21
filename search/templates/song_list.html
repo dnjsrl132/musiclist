@@ -23,7 +23,7 @@
               ["Energy", {{ artist.feature.energy }}, "#00cc33", "{% url 'search:similar' feature='energy' name=artist.name %}"],
               ["Valence", {{ artist.feature.valence }}, "#00cc33", "{% url 'search:similar' feature='valence' name=artist.name %}"],
               ["Danceability", {{ artist.feature.danceability }}, "#00cc33", "{% url 'search:similar' feature='danceability' name=artist.name %}"],
-              ["instrumentalness", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='instrumentalness' name=artist.name %}"],
+              ["instrumentalness", {{artist.feature.instrumentalness}}, "#00cc33", "{% url 'search:similar' feature='instrumentalness' name=artist.name %}"],
               ["Bpm", {{artist.feature.bpm}}, "#00cc33", "{% url 'search:similar' feature='bpm' name=artist.name %}"],
           ]);
 
