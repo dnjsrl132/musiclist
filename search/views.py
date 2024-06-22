@@ -127,19 +127,6 @@ class SimilarArtistsView(View):
                       {'feature': feature, 'value': value, 'similar_artists': similar, 'artist': name})
 
 
-#DB 삭제
-def dele(request):
-    artists = Feature.objects.all()
-    for artist in artists:
-        artist.delete()
-    artists = Song.objects.all()
-    for artist in artists:
-        artist.delete()
-    artists = Artist.objects.all()
-    for artist in artists:
-        artist.delete()
-    return redirect('search:search')
-
 #가수 평균 구하기
 def match(request):
     artists = Artist.objects.all()
