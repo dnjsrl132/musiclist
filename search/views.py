@@ -22,7 +22,6 @@ class SearchView(TemplateView):
             for feature in features:
                 if feature.oner:
                     results.append({'artist': feature.name, 'feature': {
-                            'name' : feature.name,
                             'speechiness': int(feature.speechiness),
                             'liveness': int(feature.liveness),
                             'acousticness': int(feature.acousticness),

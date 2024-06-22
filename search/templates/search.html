@@ -44,11 +44,7 @@
                     <tbody>
                         {% for result in results %}
                             <tr>
-                                {% if result.feature.oner %}
                                 <td>{{ result.feature.name }}</td>
-                                {% else %}
-                                <td>{{ result.feature.name }}</td>
-                                {% endif %}
                                 <td><a href="{% url 'search:songlist' artist_name=result.artist %}">{{ result.artist }}</a></td>
                                 <td>
                                     <div class="progress">
